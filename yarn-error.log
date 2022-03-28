@@ -1,0 +1,54 @@
+Arguments: 
+  /Users/drakejin/.nvm/versions/node/v16.13.2/bin/node /Users/drakejin/.nvm/versions/node/v16.13.2/bin/yarn add save-dev nodemno
+
+PATH: 
+  /Users/drakejin/.local/bin:/Users/drakejin/.nvm/versions/node/v16.13.2/bin:/Users/drakejin/go/1.18.0/bin:/Users/drakejin/.goenv/versions/1.18.0/bin:/Users/drakejin/.goenv/bin:/Users/drakejin/.pyenv/shims:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/drakejin/.local/bin:/Users/drakejin/.nvm/versions/node/v16.13.2/bin:/Users/drakejin/go/1.18.0/bin:/Users/drakejin/.goenv/versions/1.18.0/bin:/Users/drakejin/.goenv/bin:/Users/drakejin/.pyenv/shims:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/drakejin/.goenv/shims
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.2
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/nodemno: Not found
+      at Request.params.callback [as _callback] (/Users/drakejin/.nvm/versions/node/v16.13.2/lib/node_modules/yarn/lib/cli.js:67029:18)
+      at Request.self.callback (/Users/drakejin/.nvm/versions/node/v16.13.2/lib/node_modules/yarn/lib/cli.js:140883:22)
+      at Request.emit (node:events:390:28)
+      at Request.<anonymous> (/Users/drakejin/.nvm/versions/node/v16.13.2/lib/node_modules/yarn/lib/cli.js:141855:10)
+      at Request.emit (node:events:390:28)
+      at IncomingMessage.<anonymous> (/Users/drakejin/.nvm/versions/node/v16.13.2/lib/node_modules/yarn/lib/cli.js:141777:12)
+      at Object.onceWrapper (node:events:509:28)
+      at IncomingMessage.emit (node:events:402:35)
+      at endReadableNT (node:internal/streams/readable:1343:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  {
+    "name": "search",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/drakejin/search.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/drakejin/search/issues"
+    },
+    "homepage": "https://github.com/drakejin/search#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

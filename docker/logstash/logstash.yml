@@ -1,0 +1,29 @@
+# https://www.elastic.co/kr/blog/how-to-keep-elasticsearch-synchronized-with-a-relational-database-using-logstash
+input {
+  jdbc {
+    jdbc_driver_library => "<path>/mysql-connector-java-8.0.16.jar"
+    jdbc_driver_class => "com.mysql.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://<MySQL host>:3306/es_db"
+    jdbc_user => <my username>
+    jdbc_password => <my password>
+    jdbc_paging_enabled => true
+    tracking_column => "unix_ts_in_secs"
+    use_column_value => true
+    tracking_column_type => "numeric"
+    schedule => "*/5 * * * * *"
+    statement => "SELECT *, UNIX_TIMESTAMP(modification_time) AS unix_ts_in_secs FROM es_table WHERE (UNIX_TIMESTAMP(modification_time) > :sql_last_value AND modification_time < NOW()) ORDER BY modification_time ASC"
+  }
+}
+filter {
+  mutate {
+    copy => { "id" => "[@metadata][_id]"}
+    remove_field => ["id", "@version", "unix_ts_in_secs"]
+  }
+}
+output {
+  # stdout { codec =>  "rubydebug"}
+  elasticsearch {
+      index => "rdbms_sync_idx"
+      document_id => "%{[@metadata][_id]}"
+  }
+}

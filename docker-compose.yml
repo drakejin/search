@@ -1,0 +1,86 @@
+version: "3.7"
+
+services:
+  # database
+  wiki-mongo:
+    image: mongo:5.0.6
+    container_name: wiki-mongo
+    volumes:
+      - ./data/wiki.json:/opt/data/wiki.json
+    environment:
+      - MONGO_HOST=0.0.0.0
+      - MONGO_PORT=27017
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=wiki
+    ports:
+      - "27017:27017"
+
+  # mongo-gui
+  wiki-mongo-express:
+    container_name: wiki-mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - 28081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: username
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://username:password@wiki-mongo:27017
+
+
+  # database
+  wiki-mysql:
+    platform: linux/x86_64
+    image: mysql:8.0.28
+    container_name: wiki-mysql
+    environment:
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=wiki
+    ports:
+      - "23306:3306"
+
+  # core search engine / this process migrate DB to ES
+  wiki-elasticsearch:
+    platform: linux/x86_64
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+    container_name: wiki-elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "29200:9200"
+
+  # elasticsearch manager using UI
+  wiki-kibana:
+    platform: linux/x86_64
+    image: docker.elastic.co/kibana/kibana:7.17.1
+    container_name: wiki-kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://wiki-elasticsearch:9200
+    depends_on:
+      - wiki-elasticsearch
+    ports:
+      - "25601:5601"
+
+  # datepipeline process / this process migrate DB to ES
+  wiki-logstash:
+    platform: linux/x86_64
+    image: docker.elastic.co/logstash/logstash:7.17.1
+    container_name: wiki-logstash
+    # volumes:
+    #   - docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+    environment:
+      - LOG_LEVEL=user
+      - MONITORING_ENABLED=password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=wiki
