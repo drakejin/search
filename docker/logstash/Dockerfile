@@ -9,3 +9,5 @@ RUN /usr/share/logstash/bin/logstash-plugin install logstash-input-sqlite
 # logstash에서 elasticsearch로 보내주려고
 RUN /usr/share/logstash/bin/logstash-plugin install logstash-output-elasticsearch
 
+# logstash에서 mongodb 에서 mysql로 보내주려고
+RUN /usr/share/logstash/bin/logstash-plugin install logstash-output-jdbc

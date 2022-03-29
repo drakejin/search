@@ -265,3 +265,32 @@ POST /wiki/_search
   ]
 }
 ```
+
+
+# mysql에도 데이터를 넣어보자
+
+#### step 1 create database table
+``` bash
+
+docker exec -it wiki-mysql /bin/bash
+mysql -u user -p
+# > (type password) password
+# > use wiki
+CREATE TABLE wiki(
+  id VARCHAR(300),
+  host VARCHAR(300),
+  namespace INT,
+  logdate TIMESTAMP,
+  title VARCHAR(300),
+  text LONGTEXT,
+  full_text LONGTEXT
+  PRIMARY KEY(id)
+  FULLTEXT KEY full_text (full_text)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;;
+```
+
+#### step 2 logstash를 이용해서 mongodb to mysql
+``` bash
+docker exec -it wiki-logstash /bin/bash
+./bin/logstash -f pipeline/logstash.mysql.conf --log.level=info
+```

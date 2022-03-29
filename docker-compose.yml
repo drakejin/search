@@ -32,8 +32,12 @@ services:
 
   # database
   wiki-mysql:
-    image: mysql:8.0.28
+    image: drakejin.search/mysql:8.0.28
+    build:
+      context: docker/mysql
+      dockerfile: Dockerfile
     container_name: wiki-mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     environment:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
@@ -83,7 +87,8 @@ services:
       dockerfile: Dockerfile
     container_name: wiki-logstash
     volumes:
+      - ./docker/logstash/mysql-connector-java-8.0.28.jar:/usr/local/logstash/plugins/mysql-connector-java-8.0.28.jar
+      - ./docker/logstash/logstash.mysql.conf:/usr/share/logstash/pipeline/logstash.mysql.conf
       - ./docker/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./docker/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-    # command: ["/usr/share/logstash/bin/logstash", "-f", "/usr/share/logstash/config/logstash.conf"]
     command: ["tail", "-f", "/dev/null"]
