@@ -6,6 +6,7 @@ services:
     image: mongo:5.0.6
     container_name: wiki-mongo
     volumes:
+      - ./data/mongodb:/data/db
       - ./data/wiki.json:/opt/data/wiki.json
     environment:
       - MONGO_HOST=0.0.0.0
@@ -20,18 +21,17 @@ services:
   wiki-mongo-express:
     container_name: wiki-mongo-express
     image: mongo-express
-    restart: always
     ports:
       - 28081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: username
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
       ME_CONFIG_MONGODB_URL: mongodb://username:password@wiki-mongo:27017
-
+    depends_on:
+      - wiki-mongo
 
   # database
   wiki-mysql:
-    platform: linux/x86_64
     image: mysql:8.0.28
     container_name: wiki-mysql
     environment:
@@ -44,11 +44,15 @@ services:
 
   # core search engine / this process migrate DB to ES
   wiki-elasticsearch:
-    platform: linux/x86_64
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+    image: drakejin.search/elasticsearch:7.17.1
+    build:
+      context: docker/elasticsearch
+      dockerfile: Dockerfile
     container_name: wiki-elasticsearch
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
     environment:
-      - xpack.security.enabled=false
+      # - xpack.security.enabled=true
       - discovery.type=single-node
     ulimits:
       memlock:
@@ -62,25 +66,24 @@ services:
 
   # elasticsearch manager using UI
   wiki-kibana:
-    platform: linux/x86_64
     image: docker.elastic.co/kibana/kibana:7.17.1
     container_name: wiki-kibana
     environment:
       ELASTICSEARCH_HOSTS: http://wiki-elasticsearch:9200
-    depends_on:
-      - wiki-elasticsearch
     ports:
       - "25601:5601"
+    depends_on:
+      - wiki-elasticsearch
 
   # datepipeline process / this process migrate DB to ES
   wiki-logstash:
-    platform: linux/x86_64
-    image: docker.elastic.co/logstash/logstash:7.17.1
+    image: drakejin.search/logstash:7.17.1
+    build:
+      context: docker/logstash
+      dockerfile: Dockerfile
     container_name: wiki-logstash
-    # volumes:
-    #   - docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-    environment:
-      - LOG_LEVEL=user
-      - MONITORING_ENABLED=password
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=wiki
+    volumes:
+      - ./docker/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./docker/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+    # command: ["/usr/share/logstash/bin/logstash", "-f", "/usr/share/logstash/config/logstash.conf"]
+    command: ["tail", "-f", "/dev/null"]
