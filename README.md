@@ -294,3 +294,17 @@ CREATE TABLE wiki(
 docker exec -it wiki-logstash /bin/bash
 ./bin/logstash -f pipeline/logstash.mysql.conf --log.level=info
 ```
+
+
+# tips
+
+자주쓰는 도커 명령어
+
+``` bash
+docker start {containre_name}
+docker stop {containre_name}
+docker restart {containre_name}
+docker exec -it {containre_name} /bin/bash (or /bin/sh)
+docker-compose up --build -d (전체 재 실행 - data자체는 안날라감 / 오래걸리는 귀찮은건 volume처리 해놓음)
+docker logs --follow {container_name} - docker container의 process가 뭐라 말하고 있는지 들으려고
+```
