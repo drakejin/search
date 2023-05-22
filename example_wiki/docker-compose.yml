@@ -36,7 +36,7 @@ services:
     platform: linux/amd64
     build:
       context: docker/mysql
-      dockerfile: Dockerfile
+      dockerfile: docker/mysql/Dockerfile
     container_name: wiki-mysql
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     environment:
@@ -52,7 +52,7 @@ services:
     image: drakejin.search/elasticsearch:7.17.1
     build:
       context: docker/elasticsearch
-      dockerfile: Dockerfile
+      dockerfile: docker/elasticsearch/Dockerfile
     container_name: wiki-elasticsearch
     volumes:
       - ./data/elasticsearch:/usr/share/elasticsearch/data
@@ -85,7 +85,7 @@ services:
     image: drakejin.search/logstash:7.17.1
     build:
       context: docker/logstash
-      dockerfile: Dockerfile
+      dockerfile: docker/logstash/Dockerfile
     container_name: wiki-logstash
     volumes:
       - ./docker/logstash/mysql-connector-java-8.0.28.jar:/usr/local/logstash/plugins/mysql-connector-java-8.0.28.jar

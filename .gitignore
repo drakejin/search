@@ -1,6 +1,6 @@
 node_modules
-data/**/*
-!data/.ignore
+example_wiki/data/**/*
+!example_wiki/data/.ignore
 .idea
 *.7z
 namu*
