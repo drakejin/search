@@ -1,0 +1,74 @@
+<html>
+<head>
+    <link rel="stylesheet" href="./node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/black.css">
+    <script src="./node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="./node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+</head>
+<script>
+
+</script>
+<body>
+<script type="module">
+    import mermaid from './node_modules/mermaid/dist/mermaid.esm.min.mjs';
+    window.addEventListener("load", function () {
+        Reveal.initialize({
+            plugins: [ RevealMarkdown ]
+        }).then(async () => {
+            mermaid.initialize({
+                flowchart: {
+                    useMaxWidth: true,
+                },
+                sequenceDiagram: {
+                    useMaxWidth: true,
+                },
+                securityLevel: "loose",
+                startOnLoad: true,
+                theme: "dark"
+            })
+
+            document.querySelectorAll("code.mermaid").forEach((value, key) => {
+                const id = `mermaid-${key}`;
+                value.id = id;
+                mermaid.run({
+                    nodes: [document.getElementById(id)],
+                })
+            })
+        });
+    })
+</script>
+<div class="reveal">
+    <div class="slides">
+        <section
+                data-markdown="./PRESENTATION_1.md"
+                data-separator="^\n\n---\n\n"
+        >
+        </section>
+        <section
+                data-markdown="./PRESENTATION_2.md"
+                data-separator="^\n\n---\n\n"
+        >
+        </section>
+        <section
+                data-markdown="./PRESENTATION_3.md"
+                data-separator="^\n\n---\n\n"
+        >
+        </section>
+
+        <section
+                data-markdown="./PRESENTATION_4.md"
+                data-separator="^\n\n---\n\n"
+        >
+        </section>
+
+        <section
+                data-markdown="./PRESENTATION_5.md"
+                data-separator="^\n\n---\n\n"
+        >
+        </section>
+
+    </div>
+
+</div>
+</body>
+</html>
