@@ -1,6 +1,6 @@
 <center>
 <h2>야 너도 만들 수 있어, 검색기능</h2>
-<p>본격 야매로 순식간에 나도 할 수 있을것만 같은 자신감을 심어주는 발표</p>
+<p>본격, 검색이 쉽다고 약파는 발표!</p>
 </center>
 <center>
 <h3 style="margin:0px;padding:0px">AWSKRUG Architecture Org.</h3>
