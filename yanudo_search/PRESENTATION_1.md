@@ -119,6 +119,7 @@ sequenceDiagram
 
 ---
 
+
 <center>
     <img width="500" src="./docs/_images/tf_idf.png" alt="mecab" />
 </center>

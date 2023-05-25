@@ -24,6 +24,7 @@ Outbox Pattern
 ---
 
 
+
 ## 쉽다 쉬워~ 저장하기
 
 Event Queue Pattern
@@ -34,6 +35,7 @@ Event Queue Pattern
 
 
 ---
+
 
 
 ## 쉽다 쉬워~ 저장하기
@@ -48,6 +50,8 @@ Event Queue Pattern
 ---
 
 
+
+
 ## 쉽다 쉬워~ 저장하기
 #### trade off
 
@@ -57,7 +61,9 @@ Event Queue Pattern
   - message queue에다가 색인할 문서를 넣어두고 색인 플랫폼에서는 꺼내서 색인할 수 있도록 한다.
 
 
+
 ---
+
 
 
 ## 쉽다 쉬워~ 저장하기
