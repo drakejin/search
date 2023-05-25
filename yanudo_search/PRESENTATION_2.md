@@ -7,28 +7,42 @@
 - 정렬한다
 
 
+
+---
+
+
+
+## 쉽다 쉬워~ 저장하기
+
+Outbox Pattern
+
+
+![outbox pattern](./docs/_images/outbox_pattern.png)
+
+
+
 ---
 
 
 ## 쉽다 쉬워~ 저장하기
-#### 방법
 
-Outbox Pattern / Event Queue
+Event Queue Pattern
 
-``` mermaid
-flowchart TD
-    subgraph Event Queue
-        BusinessServer1(BusinessServer) --update data--> EventQueue1(EventQueue)
-        EventQueue1 --consume event--> Indexer1[Indexer]
-        Indexer1 --index data--> Elasticsearch1[Elasticsearch]
-    end
 
-    subgraph Outbox Pattern
-        BusinessServer2[BusinessServer] --CRUD--> Database
-        OutboxAgent --check update by interval 5min--> Database
-        OutboxAgent --index data--> Elasticsearch2[Elasticsearch]
-    end
-```
+![Event pattern](./docs/_images/event_queue_pattern.png)
+
+
+
+---
+
+
+## 쉽다 쉬워~ 저장하기
+
+- Outbox Pattern & Event Queue Pattern
+
+![Event pattern](./docs/_images/whatever_pattern.png)
+
+
 
 
 ---
